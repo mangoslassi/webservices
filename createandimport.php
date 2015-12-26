@@ -74,6 +74,20 @@ try {
 if(isset($result)) {
 	echo $result;
 }
+
+$command = 'character level ' . $character_name . ' 60';
+
+try {
+	$result = $client->executeCommand(new SoapParam($command, 'command'));
+} catch(Exception $e) {
+	echo 'Character level exception: ', $e->getMessage(), "\n";
+	return 1;
+}
+
+if(isset($result)) {
+	echo $result;
+}
+
 /*
 foreach($item_arr as $item) {
 	$command = 'additem ' . $item;
