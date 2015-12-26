@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+			Import Character
+		</title>
+	</head>
+	<body>
+		<h2>Character Import</h2>
+		Paste the entire contents of your backup LUA file located at "World of Warcraft/WTF/Account&lt;YOUR_ACCOUNT_NAME&gt;/Emerald Dream [1x] Blizzlike/&lt;YOUR_CHARACTER_NAME&gt;/SavedVariables/EternityEDCharacterBackup.lua"
+		<br>
+		<br>
+		<br>
+		<br>
+		<form action="createandimport.php" method="post" id="importform">
+			Account Name: <input type="text" name="account_name">
+			<br>
+			Account Password: <input type="password" name="account_pw">
+			<br>
+			Character Name: <input type="text" name="character_name">
+			<br>
+			Character Race: <select name="character_race" form="importform">
+                                <option value="1">Human</option>
+                                <option value="2">Orc</option>
+                                <option value="3">Dwarf</option>
+                                <option value="4">Night Elf</option>
+                                <option value="5">Undead</option>
+				<option value="6">Tauren</option>
+                                <option value="7">Gnome</option>
+				<option value="8">Troll</option>
+                        </select>
+                        <br>
+                        Character Class: <select name="character_class" form="importform">
+                                <option value="1">Warrior</option>
+                                <option value="2">Paladin</option>
+                                <option value="3">Hunter</option>
+                                <option value="4">Rogue</option>
+                                <option value="5">Priest</option>
+                                <option value="7">Shaman</option>
+                                <option value="8">Mage</option>
+                                <option value="9">Warlock</option>
+                                <option value="11">Druid</option>
+                        </select>
+                        <br>
+			Character Gender: <select name="character_gender" form="importform">
+				<option value="0">Male</option>
+				<option value="1">Female</option>
+			</select>
+			<br>
+			Character Skin: <select name="character_skin" form="importform">
+				<option value="0">0</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+				<option value="6">6</option>
+				<option value="7">7</option>
+				<option value="8">8</option>
+				<option value="9">9</option>
+			</select>
+			<br>
+			Character Face: <select name="character_face" form="importform">
+				<option value="0">0</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+				<option value="6">6</option>
+				<option value="7">7</option>
+				<option value="8">8</option>
+				<option value="9">9</option>
+			</select>
+			<br>
+			Character Hair Style: <select name="character_hairStyle" form="importform">
+				<option value="0">0</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+				<option value="6">6</option>
+				<option value="7">7</option>
+				<option value="8">8</option>
+				<option value="9">9</option>
+			</select>
+			<br>
+			Character Hair Color: <select name="character_hairColor" form="importform">
+				<option value="0">0</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+				<option value="6">6</option>
+				<option value="7">7</option>
+				<option value="8">8</option>
+				<option value="9">9</option>
+			</select>
+			<br>
+			Character Facial Hair: <select name="character_facialHair" form="importform">
+				<option value="0">0</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+				<option value="6">6</option>
+				<option value="7">7</option>
+				<option value="8">8</option>
+				<option value="9">9</option>
+			</select>
+			<br>
+			Character Outfit ID: <select name="character_outfitId" form="importform">
+				<option value="0">0</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+				<option value="6">6</option>
+				<option value="7">7</option>
+				<option value="8">8</option>
+				<option value="9">9</option>
+			</select>
+			<br>
+			Backup LUA file contents: <textarea form="importform" name="luafilecontents" style="min-width: 50%; min-height: 200px"></textarea>
+			<br>
+			<br>
+			<input type="submit">
+		</form>
+	</body>
+</html>
