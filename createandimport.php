@@ -40,7 +40,8 @@ foreach($contents_split as $line) {
 	foreach($line_split as $k => $chunk) {
 		if(strpos($chunk, '|Hitem') !== false) {
 			// Add the item.
-			$item = $line_split[$k + 1];
+			$item = trim($line_split[$k + 1]);
+			
 			echo $item . "\n";
 			array_push($item_arr, $item);
 		}
@@ -56,13 +57,14 @@ try {
 	return 1;
 }
 
-if(isset($result)) {
-	echo $result;
+if(!isset($result)) {
+	echo 'Account creation failed!<br>';
+	return 1;
 }
 
 $command = 'character create ' . $account_name . ' ' . $character_name . ' ' . $character_race . ' ' . $character_class . ' ' . $character_gender . ' ' . $character_skin . ' ' . $character_face . ' ' . $character_hairStyle . ' ' . $character_hairColor . ' ' . $character_facialHair . ' ' . $character_outfitId;
 
-echo "COMMAND: " . $command . "\n";
+unset($result);
 
 try {
 	$result = $client->executeCommand(new SoapParam($command, 'command'));
@@ -71,8 +73,9 @@ try {
 	return 1;
 }
 
-if(isset($result)) {
-	echo $result;
+if(!isset($result)) {
+	echo "Character creation failed!<br>\n";
+	return 1;
 }
 
 $command = 'character level ' . $character_name . ' 60';
@@ -84,21 +87,27 @@ try {
 	return 1;
 }
 
-if(isset($result)) {
-	echo $result;
+if(!isset($result)) {
+	echo "Character level set failed!<br>\n";
+	return 1;
 }
 
-/*
 foreach($item_arr as $item) {
-	$command = 'additem ' . $item;
+	$command = 'send items ' . $character_name . ' "Imported Item" "Enjoy!" ' . $item . ':count1';
 
 	try {
 		$result = $client->executeCommand(new SoapParam($command, 'command'));
 	} catch(Exception $e) {
-		echo 'Item add exception: ', $e->getMessage(), "\n";
+		echo 'Item send exception: ', $e->getMessage(), "<br>\n";
+	}
+
+	if(!isset($result)) {
+		echo "Character item send failed!<br>\n";
 		return 1;
 	}
 }
-*/
+
+echo "Success!\n";
+
 ?>
 
