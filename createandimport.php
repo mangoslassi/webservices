@@ -42,7 +42,6 @@ foreach($contents_split as $line) {
 			// Add the item.
 			$item = trim($line_split[$k + 1]);
 			
-			echo $item . "\n";
 			array_push($item_arr, $item);
 		}
 	}
