@@ -46,6 +46,9 @@ foreach($contents_split as $line) {
 			$item = trim($line_split[$k + 1]);
 			
 			array_push($item_arr, $item);
+		} else if(strpos($chunk, 'ZyID') !== false) {
+			// Add the item.
+			$money = trim($line_split[$k + 1]);
 		}
 	}
 }
@@ -109,6 +112,7 @@ function levelCharacter($attempts) {
 
 levelCharacter(200);
 
+// Send items to character.
 foreach($item_arr as $item) {
 	$command = 'send items ' . $character_name . ' "Imported Item" "Enjoy!" ' . $item . ':count1';
 
@@ -125,6 +129,40 @@ foreach($item_arr as $item) {
 		echo "Character item send failed!<br>\n";
 		return 1;
 	}
+}
+
+// Send imported money to character.
+$command = 'send money ' . $character_name . ' "Imported Money" "Enjoy!" ' . $money;
+
+unset($result);
+
+try {
+	$result = $client->executeCommand(new SoapParam($command, 'command'));
+} catch(Exception $e) {
+	echo 'Money send exception: ', $e->getMessage(), "<br>\n";
+	$result = true; // Set the result so the loop can finish, since some items custom to other servers could fail.
+}
+
+if(!isset($result)) {
+	echo "Character money send failed!<br>\n";
+	return 1;
+}
+
+// Send training money to character.
+$command = 'send money ' . $character_name . ' "Imported Money" "Enjoy!" 3000000';
+
+unset($result);
+
+try {
+	$result = $client->executeCommand(new SoapParam($command, 'command'));
+} catch(Exception $e) {
+	echo 'Money send exception: ', $e->getMessage(), "<br>\n";
+	$result = true; // Set the result so the loop can finish, since some items custom to other servers could fail.
+}
+
+if(!isset($result)) {
+	echo "Character money send failed!<br>\n";
+	return 1;
 }
 
 $pdo = new PDO('mysql:host=127.0.0.1;dbname=mZero_characters;charset=utf8', $dbUsername, $dbPassword);
