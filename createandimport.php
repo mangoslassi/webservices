@@ -44,9 +44,13 @@ foreach($contents_split as $line) {
 		if(strpos($chunk, '|Hitem') !== false) {
 			// Add the item.
 			$item = trim($line_split[$k + 1]);
-			
-			array_push($item_arr, $item);
-		} else if(strpos($chunk, 'ZyID') !== false) {
+		}
+
+                if(strpos($chunk, '|Hitmcount') !== false) {
+                        $item_count = trim($line_split[$k + 1]);
+                        $item_a = array($item, $item_count);
+			array_push($item_arr, $item_a);
+                } else if(strpos($chunk, 'ZyID') !== false) {
 			// Add the item.
 			$money = trim($line_split[$k + 1]);
 		}
@@ -114,7 +118,7 @@ levelCharacter(200);
 
 // Send items to character.
 foreach($item_arr as $item) {
-	$command = 'send items ' . $character_name . ' "Imported Item" "Enjoy!" ' . $item . ':count1';
+	$command = 'send items ' . $character_name . ' "Imported Item" "Enjoy!" ' . $item[0] . ':' . $item[1];
 
 	unset($result);
 
