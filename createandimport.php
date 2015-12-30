@@ -166,6 +166,7 @@ if(!isset($result)) {
 }
 
 $pdo = new PDO('mysql:host=127.0.0.1;dbname=mZero_characters;charset=utf8', $dbUsername, $dbPassword);
+
 $statement = $pdo->query("select guid from characters where name='" . $character_name . "'");
 $row = $statement->fetch(PDO::FETCH_ASSOC);
 $guid = $row['guid'];
@@ -177,6 +178,16 @@ foreach($rows as $row) {
 	$skill = $row['skill'];
 	$max = $row['max'];
 	$statement = $pdo->query("update character_skills set value='300',max='300' where skill='" . $skill . "'");
+}
+
+$warrior_spells_array = array(
+    '71', '202', '266', '674', '676', '750', '871', '1161', '1180', '1672', '1680', '1719', '2331', '2332', '2334', '2337', '2458', '2565', '2687', '3101', '3127', '3170', '3171', '3173', '3176', '3177', '3274', '3276', '3277', '3278', '3447', '5011', '5246', '6554', '7179', '7373', '7836', '7837', '7841', '7845', '7928', '7934', '11551', '11556', '11567', '11574', '11578', '11581', '11585', '11601', '11605', '11993', '12296', '12679', '12753', '12764', '12765', '12792', '12800', '12809', '12811', '12818', '12856', '12958', '12975', '13001', '16466', '16538', '18499', '20230', '20560', '20569', '20662', '23925', '33391'
+);
+
+if($character_class == "1") { // Warrior
+    foreach($warrior_spells_array as $spell_id) {
+        $statement = $pdo->query("insert into character_spell (guid, spell, active, disabled) values (" . $guid . ", " . $spell_id . ", 1, 0)");
+    }
 }
 
 echo "Success!\n";
