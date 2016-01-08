@@ -40,21 +40,39 @@ $contents_split = explode("\n", $character_contents);
 foreach($contents_split as $line) {
 	$line_split = explode(':', $line);
 
+        $arr_size = count($item_arr);
+        $item_count = '1';
+        $item_enchant = '0';
+
 	foreach($line_split as $k => $chunk) {
 		if(strpos($chunk, '|Hitem') !== false) {
 			// Add the item.
 			$item = trim($line_split[$k + 1]);
 		}
 
+                if(isset($item)) {
+                        if(strpos($chunk, $item) !== false) {
+                                $item_enchant = trim($line_split[$k + 1]);
+                        }
+                }
+
                 if(strpos($chunk, '|Hitmcount') !== false) {
                         $item_count = trim($line_split[$k + 1]);
-                        $item_a = array($item, $item_count);
+                        $item_a = array($item, $item_count, $item_enchant);
 			array_push($item_arr, $item_a);
-                } else if(strpos($chunk, 'ZyID') !== false) {
+                }
+
+                if(strpos($chunk, 'ZyID') !== false) {
 			// Add the item.
 			$money = trim($line_split[$k + 1]);
 		}
 	}
+
+        if($arr_size == count($item_arr) && isset($item)) {
+                // Array size didn't increase.. Need to add the array item manually.
+                $item_a = array($item, $item_count, $item_enchant);
+                array_push($item_arr, $item_a);
+        }
 }
 
 $command = 'account create ' . $account_name . ' ' . $account_pw;
@@ -192,6 +210,37 @@ if($character_class == "1") { // Warrior
     foreach($warrior_spells_array as $spell_id) {
         $statement = $pdo->query("insert into character_spell (guid, spell, active, disabled) values (" . $guid . ", " . $spell_id . ", 1, 0)");
     }
+}
+
+// Add item enchants to 'sent' items.
+// This must be done because mangoszero provides no way to specify the item enchant using the send item command.
+$statement = $pdo->query("select item_guid from mail_items where receiver=(select guid from characters where name='" . $character_name . "')");
+$rows = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+foreach($rows as $row) {
+        $item_guid = $row['item_guid'];
+        $statement = $pdo->query("select data from item_instance where guid=" . $item_guid);
+        $data_row = $statement->fetch(PDO::FETCH_ASSOC);
+        $data = $data_row['data'];
+        $data_split = explode(" ", $data);
+        $fnd = false;
+        foreach($item_arr as $itm) {
+                if($data_split[3] == $itm[0]) {
+                        $data_split[22] = $itm[2];
+                        $fnd = true;
+                        break;
+                }
+        }
+
+        if(!$fnd) {
+            echo "Error occured while trying to update item enchants... Item not found!<br>\n";
+            echo "Failure!<br>\n";
+            return false;
+        }
+
+        $data = implode(" ", $data_split);
+
+        $statement = $pdo->query("update item_instance set data='" . $data . "' where guid=" . $item_guid);
 }
 
 echo "Success!\n";
